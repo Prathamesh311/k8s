@@ -45,17 +45,5 @@ removes the Service, Deployment , created using the same YAML file.
 
 ### Traffic Flow
 
-Browser
-   |
-   v
-Minikube IP (192.168.49.2)
-   |
-   v
-Port 30007 (NodePort)
-   |
-   v
-Service
-   |
-   v
-Pod (container:80)
+Browser --> Minikube IP (192.168.49.2) --> Port 30007 (NodePort) --> Service --> Pod (container:80)
 
