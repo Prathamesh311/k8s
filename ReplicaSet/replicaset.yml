@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx-replicaset     # Name of the ReplicaSet 
+spec:               # this spec is for pods
+  replicas: 3          # how many number of pods
+  selector:
+    matchLabels: # Ensures only pods with label app: nginx are part of this Replicaset. if there is any pod with label nginx, it will be a part of this replicaset.
+      app: nginx
+  template:     # Ensures the pods get labeled as app: nginx
+    metadata:
+      labels:
+        app: nginx
+    spec:     # this spec is for containers.
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
