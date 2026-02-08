@@ -33,7 +33,7 @@ ReplicaSet uses selectors to continuously watch pods with matching labels and en
 
 ---
 
-# Commands and use-case
+## Commands and use-case
 
 ```bash
 kubectl get rs -o wide
@@ -83,7 +83,7 @@ To delete all the pods with label nginx.
 
 ## SCALE REPLICAS - Scale Out and Scale In
 
-# Scale Out
+## Scale Out
 
 First open another window live
 ```bash
@@ -91,15 +91,84 @@ kubectl scale rs/nginx-replicaset --replicas=10
 ```
 Now see pods are creating live.
 
-# Scale In
+## Scale In
 
 ```bash
 kubectl scale rs/nginx-replicaset --replicas=5
 ``` 
+
+
 LIFO: LAST IN FIRST OUT.
+
 If a Pod is Created lastly it will delete first when scale in happens.
-This Scale out and in is manual process
+
+The Scale out and Scale in is the manual process.
 
 
 ---
+
+Now, all pods are running with nginx image , but if i want to change the image to another image and update the POD, this not possible in ReplicaSet.
+
+```bash
+kubectl describe pod -l app=nginx | grep -i ID
+# All pods are using nginx
+```
+
+For Updating the image in the replicaset, you cannot update in yml file, it will create a new replicaSet
+so there is a command to edit current replicaset.
+
+```bash
+kubectl edit rs/nginx-replicaset
+# change nginx to another image
+```
+
+```bash
+kubectl describe pod -l app=nginx | grep -i ID
+```
+Still it will show nginx, image is not change , that's the problem with ReplicaSet, We cannot update the application
+
+
+---
+
+```bash
+vi replicaset.yml
+# Now change the image. 
+```
+
+```bash
+kubectl apply -f replicaset.yml
+```
+This will give error that nginx-replicaset already exits. So we need to create a new replicaset again.
+
+
+```bash
+kubectl get pods --show-labels
+```
+
+```bash
+kubectl describe pod -l app=nginx | grep -i ID 
+# After updating the image ,you will still see old image as nginx 
+```
+But if you scale out, new pods will contains that updated image.
+
+```bash
+kubectl scale rs/nginx-replicaset --replicas=5
+```
+
+```bash
+kubectl describe pod -l app=nginx | grep -i ID
+# If we scale the ReplicaSet, only new pods will use the updated image.
+```
+
+## This is the drawback of replicaset. Using ReplicaSet we cannot roll out the application.
+
+### Advantages:
+
+self healing
+scaling
+
+### Drawbacks:
+
+we cannot roll in and roll out and also we can't update the applications using ReplicaSet.
+
 
