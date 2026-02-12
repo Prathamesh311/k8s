@@ -1,0 +1,5 @@
+metadata:
+  name: nginx-deployment
+  namespace: dev 
+  
+   # Resources defined with a namespace in yml are created inside that namespace.
