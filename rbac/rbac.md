@@ -116,29 +116,31 @@ kubectl describe rolebinding read-pods -n dev
 | Kubeconfig  | Store user credentials & context |
 
 
+```bash
 *.key → generated first (private key)
 
 *.csr → created using the key / Signing Request
 
 *.crt → Certificate
-
+```
 
 - Workflow
 
 [Generate Private Key] ------> signs ------> [CSR] -----> sent to CA (verified or self signed)-----> [CRT issued]
 
 
-Certificate Signing Request (CSR)
+- Certificate Signing Request (CSR)
 
-Delete if any existing ns called development
+- Delete if any existing ns called development
 
-Note: you should not be in same namespace if you want to delete. Move out of it to another namespace like default and delete
+- Note: you should not be in same namespace if you want to delete. Move out of it to another namespace like default and delete
 
--- kubectl config set-context --current --namespace=default
--- kubectl delete namespace <namespace-name>
+```bash
+kubectl config set-context --current --namespace=default
+kubectl delete namespace <namespace-name>
+```
 
-
-Let’s say we have a Kubernetes namespace called “development” and we want to grant permissions to a user named “dev-user” to manage pods within that namespace.
+- Let’s say we have a Kubernetes namespace called “development” and we want to grant permissions to a user named “dev-user” to manage pods within that namespace.
 
 #### Create a namespace called development
 
