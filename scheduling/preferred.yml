@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ib-deployment
+  labels:
+    app: bank
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bank
+  template:
+    metadata:
+      labels:
+        app: bank
+    spec:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1                              #Indicates the preference weight. Higher values signify stronger preferences.​ 
+              preference:
+                matchExpressions:
+                  - key: node-name
+                    operator: In
+                    values:
+                      - mb-node
+      containers:
+        - name: nginx
+          image: nginx:1.14.2
+          ports:
+            - containerPort: 80
